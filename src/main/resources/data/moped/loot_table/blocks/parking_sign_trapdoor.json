@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:block",
+  "random_sequence": "moped:blocks/parking_sign_trapdoor",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "moped:parking_sign_trapdoor"
+        }
+      ]
+    }
+  ]
+}

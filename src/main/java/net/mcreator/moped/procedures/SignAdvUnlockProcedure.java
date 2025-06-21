@@ -1,9 +1,9 @@
 package net.mcreator.moped.procedures;
 
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.Event;
 
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.entity.Entity;
@@ -12,11 +12,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.advancements.AdvancementProgress;
-import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
 
 import javax.annotation.Nullable;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class SignAdvUnlockProcedure {
 	@SubscribeEvent
 	public static void onBlockPlace(BlockEvent.EntityPlaceEvent event) {
@@ -30,13 +30,15 @@ public class SignAdvUnlockProcedure {
 	private static void execute(@Nullable Event event, LevelAccessor world, double x, double y, double z, Entity entity) {
 		if (entity == null)
 			return;
-		if ((world.getBlockState(BlockPos.containing(x, y, z))).is(BlockTags.create(new ResourceLocation("moped:moped_signs")))) {
+		if ((world.getBlockState(BlockPos.containing(x, y, z))).is(BlockTags.create(ResourceLocation.parse("moped:moped_signs")))) {
 			if (entity instanceof ServerPlayer _player) {
-				Advancement _adv = _player.server.getAdvancements().getAdvancement(new ResourceLocation("moped:sign_adv"));
-				AdvancementProgress _ap = _player.getAdvancements().getOrStartProgress(_adv);
-				if (!_ap.isDone()) {
-					for (String criteria : _ap.getRemainingCriteria())
-						_player.getAdvancements().award(_adv, criteria);
+				AdvancementHolder _adv = _player.server.getAdvancements().get(ResourceLocation.parse("moped:sign_adv"));
+				if (_adv != null) {
+					AdvancementProgress _ap = _player.getAdvancements().getOrStartProgress(_adv);
+					if (!_ap.isDone()) {
+						for (String criteria : _ap.getRemainingCriteria())
+							_player.getAdvancements().award(_adv, criteria);
+					}
 				}
 			}
 		}

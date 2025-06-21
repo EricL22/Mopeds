@@ -9,17 +9,17 @@ import net.mcreator.moped.entity.TinyCopperMopedEntity;
 public class TinyCopperMopedModel extends GeoModel<TinyCopperMopedEntity> {
 	@Override
 	public ResourceLocation getAnimationResource(TinyCopperMopedEntity entity) {
-		return new ResourceLocation("moped", "animations/tiny_copper_moped.animation.json");
+		return ResourceLocation.parse("moped:animations/tiny_copper_moped.animation.json");
 	}
 
 	@Override
 	public ResourceLocation getModelResource(TinyCopperMopedEntity entity) {
-		return new ResourceLocation("moped", "geo/tiny_copper_moped.geo.json");
+		return ResourceLocation.parse("moped:geo/tiny_copper_moped.geo.json");
 	}
 
 	@Override
 	public ResourceLocation getTextureResource(TinyCopperMopedEntity entity) {
-		return new ResourceLocation("moped", "textures/entities/" + entity.getTexture() + ".png");
+		return ResourceLocation.parse("moped:textures/entities/" + entity.getTexture() + ".png");
 	}
 
 }

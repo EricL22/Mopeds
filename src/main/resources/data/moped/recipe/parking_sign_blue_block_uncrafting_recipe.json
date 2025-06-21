@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "moped:parking_sign_blue_block"
+  },
+  "result": {
+    "id": "minecraft:blue_concrete",
+    "count": 1
+  }
+}

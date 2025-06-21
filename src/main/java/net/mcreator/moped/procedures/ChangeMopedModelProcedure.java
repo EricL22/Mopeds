@@ -1,7 +1,7 @@
 package net.mcreator.moped.procedures;
 
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.capabilities.Capabilities;
 
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.AABB;
@@ -15,7 +15,6 @@ import net.minecraft.core.BlockPos;
 import net.mcreator.moped.init.MopedModEntities;
 import net.mcreator.moped.entity.CopperMopedEntity;
 
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.Comparator;
 
 public class ChangeMopedModelProcedure {
@@ -34,34 +33,28 @@ public class ChangeMopedModelProcedure {
 		}
 		InventorySlot = 0;
 		while (InventorySlot <= 4) {
-			{
-				final int _slotid = (int) InventorySlot;
-				final ItemStack _setstack = (new Object() {
+			if (((Entity) world.getEntitiesOfClass(CopperMopedEntity.class, AABB.ofSize(new Vec3(x, y, z), 4, 4, 4), e -> true).stream().sorted(new Object() {
+				Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
+					return Comparator.comparingDouble(_entcnd -> _entcnd.distanceToSqr(_x, _y, _z));
+				}
+			}.compareDistOf(x, y, z)).findFirst().orElse(null)).getCapability(Capabilities.ItemHandler.ENTITY, null) instanceof IItemHandlerModifiable _modHandler) {
+				ItemStack _setstack = (new Object() {
 					public ItemStack getItemStack(int sltid, Entity entity) {
-						AtomicReference<ItemStack> _retval = new AtomicReference<>(ItemStack.EMPTY);
-						entity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(capability -> {
-							_retval.set(capability.getStackInSlot(sltid).copy());
-						});
-						return _retval.get();
+						if (entity.getCapability(Capabilities.ItemHandler.ENTITY, null) instanceof IItemHandlerModifiable _modHandler) {
+							return _modHandler.getStackInSlot(sltid).copy();
+						}
+						return ItemStack.EMPTY;
 					}
-				}.getItemStack((int) InventorySlot, entity));
+				}.getItemStack((int) InventorySlot, entity)).copy();
 				_setstack.setCount((new Object() {
 					public ItemStack getItemStack(int sltid, Entity entity) {
-						AtomicReference<ItemStack> _retval = new AtomicReference<>(ItemStack.EMPTY);
-						entity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(capability -> {
-							_retval.set(capability.getStackInSlot(sltid).copy());
-						});
-						return _retval.get();
+						if (entity.getCapability(Capabilities.ItemHandler.ENTITY, null) instanceof IItemHandlerModifiable _modHandler) {
+							return _modHandler.getStackInSlot(sltid).copy();
+						}
+						return ItemStack.EMPTY;
 					}
 				}.getItemStack((int) InventorySlot, entity)).getCount());
-				((Entity) world.getEntitiesOfClass(CopperMopedEntity.class, AABB.ofSize(new Vec3(x, y, z), 4, 4, 4), e -> true).stream().sorted(new Object() {
-					Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
-						return Comparator.comparingDouble(_entcnd -> _entcnd.distanceToSqr(_x, _y, _z));
-					}
-				}.compareDistOf(x, y, z)).findFirst().orElse(null)).getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(capability -> {
-					if (capability instanceof IItemHandlerModifiable _modHandler)
-						_modHandler.setStackInSlot(_slotid, _setstack);
-				});
+				_modHandler.setStackInSlot((int) InventorySlot, _setstack);
 			}
 			InventorySlot = InventorySlot + 1;
 		}

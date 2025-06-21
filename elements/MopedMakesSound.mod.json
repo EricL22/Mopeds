@@ -1,17 +1,20 @@
 {
-  "_fv": 47,
+  "_fv": 73,
   "_type": "potioneffect",
   "definition": {
     "effectName": "Engine is running",
-    "icon": "engine_piston.png",
+    "icon": "engine_piston",
     "color": {
       "value": -10066330,
       "falpha": 0.0
     },
     "isInstant": false,
-    "isBad": false,
-    "isBenefitical": false,
+    "mobEffectCategory": "NEUTRAL",
     "renderStatusInInventory": false,
-    "renderStatusInHUD": false
+    "renderStatusInHUD": false,
+    "isCuredByMilk": true,
+    "isProtectedByTotem": true,
+    "isCuredbyHoney": false,
+    "modifiers": []
   }
 }

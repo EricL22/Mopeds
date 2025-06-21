@@ -1,7 +1,9 @@
 
 package net.mcreator.moped.item;
 
-import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.Rarity;
@@ -20,9 +22,10 @@ public class CopperMopedItemItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack itemstack, Level world, List<Component> list, TooltipFlag flag) {
-		super.appendHoverText(itemstack, world, list, flag);
-		list.add(Component.literal("You'll need a key to open the fuel tank."));
+	@OnlyIn(Dist.CLIENT)
+	public void appendHoverText(ItemStack itemstack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+		super.appendHoverText(itemstack, context, list, flag);
+		list.add(Component.translatable("item.moped.copper_moped_item.description_0"));
 	}
 
 	@Override

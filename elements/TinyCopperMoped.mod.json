@@ -1,5 +1,5 @@
 {
-  "_fv": 47,
+  "_fv": 73,
   "_type": "animatedentity",
   "definition": {
     "mobName": "Tiny Copper Moped",
@@ -12,10 +12,12 @@
     "boundingBoxScale": {
       "fixedValue": 1.0
     },
+    "entityDataEntries": [],
     "modelWidth": 0.375,
     "modelHeight": 0.31199999999999994,
     "modelShadowSize": 0.2,
     "mountedYOffset": -0.15,
+    "stepHeight": 0.6,
     "hasSpawnEgg": false,
     "spawnEggBaseColor": {
       "value": -1,
@@ -28,6 +30,7 @@
     "creativeTab": {
       "value": "TOOLS"
     },
+    "creativeTabs": [],
     "isBoss": false,
     "bossBarColor": "PINK",
     "bossBarType": "PROGRESS",
@@ -143,6 +146,16 @@
     "rangedAttackInterval": 20,
     "rangedAttackRadius": 10.0,
     "height": 1.0,
+    "attackRate": 7,
+    "raidSpawnsCount": [
+      4,
+      3,
+      3,
+      4,
+      4,
+      4,
+      2
+    ],
     "spawnThisMob": false,
     "doesDespawnWhenIdle": false,
     "spawningProbability": 20,

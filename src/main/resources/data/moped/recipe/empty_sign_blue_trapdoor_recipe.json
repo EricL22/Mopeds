@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "moped:empty_sign_blue_block"
+    },
+    {
+      "tag": "minecraft:trapdoors"
+    }
+  ],
+  "result": {
+    "id": "moped:empty_sign_blue_trapdoor",
+    "count": 1
+  }
+}

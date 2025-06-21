@@ -1,6 +1,7 @@
 package net.mcreator.moped.procedures;
 
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.capabilities.Capabilities;
 
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.AABB;
@@ -13,7 +14,6 @@ import net.minecraft.core.registries.Registries;
 
 import net.mcreator.moped.init.MopedModItems;
 
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.List;
 import java.util.Comparator;
 
@@ -24,38 +24,35 @@ public class UpdateNrOfBoostersNBTProcedure {
 			final Vec3 _center = new Vec3(x, y, z);
 			List<Entity> _entfound = world.getEntitiesOfClass(Entity.class, new AABB(_center, _center).inflate(16 / 2d), e -> true).stream().sorted(Comparator.comparingDouble(_entcnd -> _entcnd.distanceToSqr(_center))).toList();
 			for (Entity entityiterator : _entfound) {
-				if (entityiterator.getType().is(TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation("moped:mopeds")))) {
+				if (entityiterator.getType().is(TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse("moped:mopeds")))) {
 					try {
 						NrOfBoosters = 0;
 						if ((new Object() {
 							public ItemStack getItemStack(int sltid, Entity entity) {
-								AtomicReference<ItemStack> _retval = new AtomicReference<>(ItemStack.EMPTY);
-								entity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(capability -> {
-									_retval.set(capability.getStackInSlot(sltid).copy());
-								});
-								return _retval.get();
+								if (entity.getCapability(Capabilities.ItemHandler.ENTITY, null) instanceof IItemHandlerModifiable _modHandler) {
+									return _modHandler.getStackInSlot(sltid).copy();
+								}
+								return ItemStack.EMPTY;
 							}
 						}.getItemStack(1, entityiterator)).getItem() == MopedModItems.MOPED_BOOSTER_ITEM.get()) {
 							NrOfBoosters = NrOfBoosters + 1;
 						}
 						if ((new Object() {
 							public ItemStack getItemStack(int sltid, Entity entity) {
-								AtomicReference<ItemStack> _retval = new AtomicReference<>(ItemStack.EMPTY);
-								entity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(capability -> {
-									_retval.set(capability.getStackInSlot(sltid).copy());
-								});
-								return _retval.get();
+								if (entity.getCapability(Capabilities.ItemHandler.ENTITY, null) instanceof IItemHandlerModifiable _modHandler) {
+									return _modHandler.getStackInSlot(sltid).copy();
+								}
+								return ItemStack.EMPTY;
 							}
 						}.getItemStack(2, entityiterator)).getItem() == MopedModItems.MOPED_BOOSTER_ITEM.get()) {
 							NrOfBoosters = NrOfBoosters + 1;
 						}
 						if ((new Object() {
 							public ItemStack getItemStack(int sltid, Entity entity) {
-								AtomicReference<ItemStack> _retval = new AtomicReference<>(ItemStack.EMPTY);
-								entity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(capability -> {
-									_retval.set(capability.getStackInSlot(sltid).copy());
-								});
-								return _retval.get();
+								if (entity.getCapability(Capabilities.ItemHandler.ENTITY, null) instanceof IItemHandlerModifiable _modHandler) {
+									return _modHandler.getStackInSlot(sltid).copy();
+								}
+								return ItemStack.EMPTY;
 							}
 						}.getItemStack(3, entityiterator)).getItem() == MopedModItems.MOPED_BOOSTER_ITEM.get()) {
 							NrOfBoosters = NrOfBoosters + 1;

@@ -1,17 +1,20 @@
 {
-  "_fv": 47,
+  "_fv": 73,
   "_type": "potioneffect",
   "definition": {
     "effectName": "Has Fuel",
-    "icon": "has_fuel.png",
+    "icon": "has_fuel",
     "color": {
       "value": -10066432,
       "falpha": 0.0
     },
     "isInstant": false,
-    "isBad": false,
-    "isBenefitical": true,
+    "mobEffectCategory": "BENEFICIAL",
     "renderStatusInInventory": false,
-    "renderStatusInHUD": false
+    "renderStatusInHUD": false,
+    "isCuredByMilk": true,
+    "isProtectedByTotem": true,
+    "isCuredbyHoney": false,
+    "modifiers": []
   }
 }

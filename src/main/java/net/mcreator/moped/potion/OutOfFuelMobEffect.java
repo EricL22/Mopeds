@@ -13,17 +13,13 @@ public class OutOfFuelMobEffect extends MobEffect {
 	}
 
 	@Override
-	public String getDescriptionId() {
-		return "effect.moped.out_of_fuel";
-	}
-
-	@Override
-	public void applyEffectTick(LivingEntity entity, int amplifier) {
-		OutOfFuelOnEffectActiveTickProcedure.execute(entity);
-	}
-
-	@Override
-	public boolean isDurationEffectTick(int duration, int amplifier) {
+	public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
 		return true;
+	}
+
+	@Override
+	public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+		OutOfFuelOnEffectActiveTickProcedure.execute(entity);
+		return super.applyEffectTick(entity, amplifier);
 	}
 }

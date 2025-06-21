@@ -1,0 +1,40 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="Academic Free License v3.0"
+
+[[mods]]
+modId="moped"
+version="1.0.0"
+displayName="Moped"
+displayURL="https://mcreator.net"
+credits="Created using mod maker MCreator - https://mcreator.net/about"
+authors="abovearth, MCreator"
+
+# Start of user code block mod configuration
+# End of user code block mod configuration
+
+[[dependencies.moped]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21.1.65,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.moped]]
+    modId="minecraft"
+    type="required"
+    versionRange="[1.21.1]"
+    ordering="AFTER"
+    side="BOTH"
+
+
+[[dependencies.moped]]
+    modId="geckolib"
+    type="optional"
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+
+
+# Start of user code block dependencies configuration
+# End of user code block dependencies configuration

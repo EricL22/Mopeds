@@ -2,29 +2,25 @@
 package net.mcreator.moped.entity;
 
 import software.bernie.geckolib.util.GeckoLibUtil;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.GeoEntity;
 
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.network.PlayMessages;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.items.wrapper.EntityHandsInvWrapper;
-import net.minecraftforge.items.wrapper.EntityArmorInvWrapper;
-import net.minecraftforge.items.wrapper.CombinedInvWrapper;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.Capability;
+import net.neoforged.neoforge.items.wrapper.EntityHandsInvWrapper;
+import net.neoforged.neoforge.items.wrapper.EntityArmorInvWrapper;
+import net.neoforged.neoforge.items.wrapper.CombinedInvWrapper;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.entity.projectile.ThrownPotion;
@@ -34,7 +30,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.EntityType;
@@ -59,10 +54,11 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.BlockPos;
 
 import net.mcreator.moped.world.inventory.MopedGUIMenu;
-import net.mcreator.moped.procedures.CopperMopedRightClickedOnEntityProcedure;
+//import net.mcreator.moped.procedures.CopperMopedRightClickedOnEntityProcedure;
 import net.mcreator.moped.procedures.CopperMopedOnEntityTickUpdateProcedure;
 import net.mcreator.moped.procedures.CopperMopedEntityDiesProcedure;
 import net.mcreator.moped.init.MopedModEntities;
@@ -85,10 +81,6 @@ public class CopperMopedEntity extends PathfinderMob implements GeoEntity {
 	private long lastSwing;
 	public String animationprocedure = "empty";
 
-	public CopperMopedEntity(PlayMessages.SpawnEntity packet, Level world) {
-		this(MopedModEntities.COPPER_MOPED.get(), world);
-	}
-
 	public CopperMopedEntity(EntityType<CopperMopedEntity> type, Level world) {
 		super(type, world);
 		xpReward = 0;
@@ -97,11 +89,11 @@ public class CopperMopedEntity extends PathfinderMob implements GeoEntity {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(SHOOT, false);
-		this.entityData.define(ANIMATION, "undefined");
-		this.entityData.define(TEXTURE, "moped0");
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(SHOOT, false);
+		builder.define(ANIMATION, "undefined");
+		builder.define(TEXTURE, "moped0");
 	}
 
 	public void setTexture(String texture) {
@@ -113,19 +105,9 @@ public class CopperMopedEntity extends PathfinderMob implements GeoEntity {
 	}
 
 	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
-	@Override
 	protected void registerGoals() {
 		super.registerGoals();
 
-	}
-
-	@Override
-	public MobType getMobType() {
-		return MobType.UNDEFINED;
 	}
 
 	@Override
@@ -135,17 +117,17 @@ public class CopperMopedEntity extends PathfinderMob implements GeoEntity {
 
 	@Override
 	public void playStepSound(BlockPos pos, BlockState blockIn) {
-		this.playSound(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("moped:moped.sound.silence")), 0.15f, 1);
+		this.playSound(BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.sound.silence")), 0.15f, 1);
 	}
 
 	@Override
 	public SoundEvent getHurtSound(DamageSource ds) {
-		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("moped:moped.hurt2"));
+		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.hurt2"));
 	}
 
 	@Override
 	public SoundEvent getDeathSound() {
-		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("moped:moped.breaks2"));
+		return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.breaks2"));
 	}
 
 	@Override
@@ -181,13 +163,11 @@ public class CopperMopedEntity extends PathfinderMob implements GeoEntity {
 			return 64;
 		}
 	};
+
 	private final CombinedInvWrapper combined = new CombinedInvWrapper(inventory, new EntityHandsInvWrapper(this), new EntityArmorInvWrapper(this));
 
-	@Override
-	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction side) {
-		if (this.isAlive() && capability == ForgeCapabilities.ITEM_HANDLER && side == null)
-			return LazyOptional.of(() -> combined).cast();
-		return super.getCapability(capability, side);
+	public CombinedInvWrapper getInventory() {
+		return combined;
 	}
 
 	@Override
@@ -195,7 +175,7 @@ public class CopperMopedEntity extends PathfinderMob implements GeoEntity {
 		super.dropEquipment();
 		for (int i = 0; i < inventory.getSlots(); ++i) {
 			ItemStack itemstack = inventory.getStackInSlot(i);
-			if (!itemstack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(itemstack)) {
+			if (!itemstack.isEmpty() && !EnchantmentHelper.has(itemstack, EnchantmentEffectComponents.PREVENT_EQUIPMENT_DROP)) {
 				this.spawnAtLocation(itemstack);
 			}
 		}
@@ -204,7 +184,8 @@ public class CopperMopedEntity extends PathfinderMob implements GeoEntity {
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
 		super.addAdditionalSaveData(compound);
-		compound.put("InventoryCustom", inventory.serializeNBT());
+		compound.put("InventoryCustom", inventory.serializeNBT(this.registryAccess()));
+		compound.putString("Texture", this.getTexture());
 	}
 
 	@Override
@@ -212,7 +193,9 @@ public class CopperMopedEntity extends PathfinderMob implements GeoEntity {
 		super.readAdditionalSaveData(compound);
 		Tag inventoryCustom = compound.get("InventoryCustom");
 		if (inventoryCustom instanceof CompoundTag inventoryTag)
-			inventory.deserializeNBT(inventoryTag);
+			inventory.deserializeNBT(this.registryAccess(), inventoryTag);
+		if (compound.contains("Texture"))
+			this.setTexture(compound.getString("Texture"));
 	}
 
 	@Override
@@ -223,7 +206,7 @@ public class CopperMopedEntity extends PathfinderMob implements GeoEntity {
 		//if (sourceentity.isSecondaryUseActive()) {
 		// we change the condition to holding the key item.
 			if (sourceentity instanceof ServerPlayer serverPlayer) {
-				NetworkHooks.openScreen(serverPlayer, new MenuProvider() {
+				serverPlayer.openMenu(new MenuProvider() {
 					@Override
 					public Component getDisplayName() {
 						return Component.literal("Copper Moped");
@@ -266,11 +249,6 @@ public class CopperMopedEntity extends PathfinderMob implements GeoEntity {
 	}
 
 	@Override
-	public EntityDimensions getDimensions(Pose p_33597_) {
-		return super.getDimensions(p_33597_).scale((float) 1);
-	}
-
-	@Override
 	public void travel(Vec3 dir) {
 		Entity entity = this.getPassengers().isEmpty() ? null : (Entity) this.getPassengers().get(0);
 		if (this.isVehicle()) {
@@ -280,7 +258,7 @@ public class CopperMopedEntity extends PathfinderMob implements GeoEntity {
 			this.setRot(this.getYRot(), this.getXRot());
 			this.yBodyRot = entity.getYRot();
 			this.yHeadRot = entity.getYRot();
-			this.setMaxUpStep(1.0F);
+			//this.setMaxUpStep(1.0F);
 			if (entity instanceof LivingEntity passenger) {
 				this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
 				float forward = passenger.zza;
@@ -297,7 +275,7 @@ public class CopperMopedEntity extends PathfinderMob implements GeoEntity {
 			this.calculateEntityAnimation(true);
 			return;
 		}
-		this.setMaxUpStep(0.5F);
+		//this.setMaxUpStep(0.5F);
 		super.travel(dir);
 	}
 
@@ -307,7 +285,7 @@ public class CopperMopedEntity extends PathfinderMob implements GeoEntity {
 		this.updateSwingTime();
 	}
 
-	public static void init() {
+	public static void init(RegisterSpawnPlacementsEvent event) {
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
@@ -317,6 +295,7 @@ public class CopperMopedEntity extends PathfinderMob implements GeoEntity {
 		builder = builder.add(Attributes.ARMOR, 0);
 		builder = builder.add(Attributes.ATTACK_DAMAGE, 0);
 		builder = builder.add(Attributes.FOLLOW_RANGE, 16);
+		builder = builder.add(Attributes.STEP_HEIGHT, 1);
 		return builder;
 	}
 
@@ -363,7 +342,7 @@ public class CopperMopedEntity extends PathfinderMob implements GeoEntity {
 		++this.deathTime;
 		if (this.deathTime == 20) {
 			this.remove(CopperMopedEntity.RemovalReason.KILLED);
-			this.dropExperience();
+			this.dropExperience(this);
 		}
 	}
 

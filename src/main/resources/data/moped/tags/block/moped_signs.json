@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "moped:moped_sign_block",
+    "moped:moped_sign_blue_block",
+    "moped:parking_sign_blue_block",
+    "moped:moped_sign_trapdoor",
+    "moped:moped_sign_blue_trapdoor",
+    "moped:parking_sign_trapdoor",
+    "moped:empty_sign_blue_block",
+    "moped:empty_sign_blue_trapdoor"
+  ]
+}

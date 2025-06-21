@@ -1,9 +1,9 @@
 package net.mcreator.moped.procedures;
 
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.Event;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.tags.TagKey;
@@ -12,11 +12,11 @@ import net.minecraft.core.registries.Registries;
 
 import javax.annotation.Nullable;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class MopedLessFallDamageProcedure {
 	@SubscribeEvent
 	public static void onEntityFall(LivingFallEvent event) {
-		if (event != null && event.getEntity() != null) {
+		if (event.getEntity() != null) {
 			execute(event, event.getEntity());
 		}
 	}
@@ -28,7 +28,7 @@ public class MopedLessFallDamageProcedure {
 	private static void execute(@Nullable Event event, Entity entity) {
 		if (entity == null)
 			return;
-		if (entity.getType().is(TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation("moped:mopeds")))) {
+		if (entity.getType().is(TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse("moped:mopeds")))) {
 			entity.fallDistance = 0;
 		}
 	}

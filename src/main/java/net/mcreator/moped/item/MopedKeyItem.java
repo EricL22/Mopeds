@@ -1,6 +1,9 @@
 
 package net.mcreator.moped.item;
 
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.Rarity;
@@ -21,20 +24,17 @@ public class MopedKeyItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack itemstack, Level world, List<Component> list, TooltipFlag flag) {
-		super.appendHoverText(itemstack, world, list, flag);
-		list.add(Component.literal("Opens Mopeds inventory when right clicked on a Moped"));
-		list.add(Component.literal("Use to make nearby mopeds honk their horn. Ideal for finding lost tiny mopeds"));
+	@OnlyIn(Dist.CLIENT)
+	public void appendHoverText(ItemStack itemstack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+		super.appendHoverText(itemstack, context, list, flag);
+		list.add(Component.translatable("item.moped.moped_key.description_0"));
+		list.add(Component.translatable("item.moped.moped_key.description_1"));
 	}
 
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player entity, InteractionHand hand) {
 		InteractionResultHolder<ItemStack> ar = super.use(world, entity, hand);
-		ItemStack itemstack = ar.getObject();
-		double x = entity.getX();
-		double y = entity.getY();
-		double z = entity.getZ();
-		MopedBeeperRightclickedProcedure.execute(world, x, y, z, entity);
+		MopedBeeperRightclickedProcedure.execute(world, entity.getX(), entity.getY(), entity.getZ(), entity);
 		return ar;
 	}
 }

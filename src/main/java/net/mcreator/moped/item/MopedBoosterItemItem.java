@@ -1,7 +1,9 @@
 
 package net.mcreator.moped.item;
 
-import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.ItemStack;
@@ -16,9 +18,10 @@ public class MopedBoosterItemItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack itemstack, Level world, List<Component> list, TooltipFlag flag) {
-		super.appendHoverText(itemstack, world, list, flag);
-		list.add(Component.literal("Boosts moped speeds"));
-		list.add(Component.literal("but uses more fuel."));
+	@OnlyIn(Dist.CLIENT)
+	public void appendHoverText(ItemStack itemstack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+		super.appendHoverText(itemstack, context, list, flag);
+		list.add(Component.translatable("item.moped.moped_booster_item.description_0"));
+		list.add(Component.translatable("item.moped.moped_booster_item.description_1"));
 	}
 }

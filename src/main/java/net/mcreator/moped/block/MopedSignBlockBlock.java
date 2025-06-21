@@ -1,10 +1,12 @@
 
 package net.mcreator.moped.block;
 
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -13,11 +15,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.BlockPos;
 
 import java.util.List;
-import java.util.Collections;
 
 public class MopedSignBlockBlock extends Block {
 	public MopedSignBlockBlock() {
@@ -25,9 +27,10 @@ public class MopedSignBlockBlock extends Block {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack itemstack, BlockGetter world, List<Component> list, TooltipFlag flag) {
-		super.appendHoverText(itemstack, world, list, flag);
-		list.add(Component.literal("Use with Framed Blocks or CopyCat Panels"));
+	@OnlyIn(Dist.CLIENT)
+	public void appendHoverText(ItemStack itemstack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+		super.appendHoverText(itemstack, context, list, flag);
+		list.add(Component.translatable("block.moped.moped_sign_block.description_0"));
 	}
 
 	@Override
@@ -43,13 +46,5 @@ public class MopedSignBlockBlock extends Block {
 	@Override
 	public VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return Shapes.empty();
-	}
-
-	@Override
-	public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-		List<ItemStack> dropsOriginal = super.getDrops(state, builder);
-		if (!dropsOriginal.isEmpty())
-			return dropsOriginal;
-		return Collections.singletonList(new ItemStack(this, 1));
 	}
 }

@@ -1,18 +1,21 @@
 {
-  "_fv": 47,
+  "_fv": 73,
   "_type": "potioneffect",
   "definition": {
     "effectName": "Out Of Fuel",
-    "icon": "out_of_fuel.png",
+    "icon": "out_of_fuel",
     "color": {
       "value": -1,
       "falpha": 0.0
     },
     "isInstant": false,
-    "isBad": true,
-    "isBenefitical": false,
+    "mobEffectCategory": "HARMFUL",
     "renderStatusInInventory": true,
     "renderStatusInHUD": true,
+    "isCuredByMilk": true,
+    "isProtectedByTotem": true,
+    "isCuredbyHoney": false,
+    "modifiers": [],
     "onActiveTick": {
       "name": "OutOfFuelOnEffectActiveTick"
     }

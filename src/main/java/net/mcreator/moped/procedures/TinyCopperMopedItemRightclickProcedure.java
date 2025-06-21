@@ -1,6 +1,7 @@
 package net.mcreator.moped.procedures;
 
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.MobSpawnType;
@@ -10,6 +11,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 
@@ -41,7 +43,7 @@ public class TinyCopperMopedItemRightclickProcedure {
 			} else {
 				entityToSpawn.setCustomName(Component.literal((((itemstack.getDisplayName().getString()).replace("]", "")).replace("[", ""))));
 			}
-			entityToSpawn.getPersistentData().putDouble("Fuel", (itemstack.getOrCreateTag().getDouble("Fuel")));
+			entityToSpawn.getPersistentData().putDouble("Fuel", (itemstack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getDouble("Fuel")));
 		}
 	}
 }

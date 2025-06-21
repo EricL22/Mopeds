@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "a  ",
+    "bcd",
+    "eee"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:stick"
+    },
+    "b": {
+      "item": "minecraft:cut_copper_slab"
+    },
+    "c": {
+      "item": "minecraft:copper_block"
+    },
+    "d": {
+      "tag": "minecraft:wool"
+    },
+    "e": {
+      "item": "minecraft:netherite_boots"
+    }
+  },
+  "result": {
+    "id": "moped:copper_moped_item",
+    "count": 1
+  }
+}
