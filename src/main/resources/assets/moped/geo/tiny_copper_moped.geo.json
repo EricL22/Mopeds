@@ -137,8 +137,13 @@
 					]
 				},
 				{
-					"name": "Steer",
+					"name": "Rudder",
 					"parent": "Vehicle",
+					"pivot": [0, 5.5, -6.5]
+				},
+				{
+					"name": "Steer",
+					"parent": "Rudder",
 					"pivot": [0, 5.5, -6.5],
 					"cubes": [
 						{"origin": [1, 1, -9], "size": [1, 7, 1], "pivot": [1.5, 1.5, -8.5], "rotation": [-30, 0, 0], "uv": [4, 0]},

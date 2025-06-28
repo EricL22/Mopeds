@@ -43,26 +43,26 @@ public class CopperMopedOnEntityTickUpdateProcedure {
 						_entity.addEffect(new MobEffectInstance(MopedModMobEffects.MOPED_MAKES_SOUND, 47, 0, true, true));
 					if (world instanceof Level _level) {
 						if (!_level.isClientSide()) {
-							_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.engine.idling")), SoundSource.NEUTRAL, (float) 0.1, 1);
+							_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.engine.idling")), SoundSource.NEUTRAL, (float) 0.2, 1);
 						} else {
-							_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.engine.idling")), SoundSource.NEUTRAL, (float) 0.1, 1, false);
+							_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.engine.idling")), SoundSource.NEUTRAL, (float) 0.2, 1, false);
 						}
 					}
 					if (entity.getDeltaMovement().x() != 0 || entity.getDeltaMovement().z() != 0) {
 						if (Math.random() > 0.5) {
 							if (world instanceof Level _level) {
 								if (!_level.isClientSide()) {
-									_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.engine.rev1")), SoundSource.NEUTRAL, (float) 0.1, (float) Math.random());
+									_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.engine.rev1")), SoundSource.NEUTRAL, (float) 0.4, (float) Math.random());
 								} else {
-									_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.engine.rev1")), SoundSource.NEUTRAL, (float) 0.1, (float) Math.random(), false);
+									_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.engine.rev1")), SoundSource.NEUTRAL, (float) 0.4, (float) Math.random(), false);
 								}
 							}
 						} else {
 							if (world instanceof Level _level) {
 								if (!_level.isClientSide()) {
-									_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.engine.rev2")), SoundSource.NEUTRAL, (float) 0.1, (float) Math.random());
+									_level.playSound(null, BlockPos.containing(x, y, z), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.engine.rev2")), SoundSource.NEUTRAL, (float) 0.4, (float) Math.random());
 								} else {
-									_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.engine.rev2")), SoundSource.NEUTRAL, (float) 0.1, (float) Math.random(), false);
+									_level.playLocalSound(x, y, z, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.engine.rev2")), SoundSource.NEUTRAL, (float) 0.4, (float) Math.random(), false);
 								}
 							}
 						}

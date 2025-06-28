@@ -80,8 +80,13 @@
 					]
 				},
 				{
-					"name": "Steer",
+					"name": "Rudder",
 					"parent": "Vehicle",
+					"pivot": [0, 16, -14]
+				},
+				{
+					"name": "Steer",
+					"parent": "Rudder",
 					"pivot": [0, 16, -14]
 				},
 				{

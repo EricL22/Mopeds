@@ -1330,8 +1330,8 @@
   "workspaceSettings": {
     "modid": "moped",
     "modName": "Moped",
-    "version": "1.0.0",
-    "author": "abovearth, MCreator",
+    "version": "1.1.0",
+    "author": "222Eric, abovearth, MCreator",
     "websiteURL": "https://mcreator.net",
     "license": "Academic Free License v3.0",
     "serverSideOnly": false,

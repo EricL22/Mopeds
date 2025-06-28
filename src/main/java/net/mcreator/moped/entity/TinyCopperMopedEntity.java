@@ -64,6 +64,7 @@ import net.mcreator.moped.init.MopedModEntities;
 //extra import to find the key item
 import net.mcreator.moped.init.MopedModItems;
 
+import net.minecraft.util.Mth;
 import javax.annotation.Nullable;
 import javax.annotation.Nonnull;
 
@@ -73,6 +74,9 @@ public class TinyCopperMopedEntity extends PathfinderMob implements GeoEntity {
 	public static final EntityDataAccessor<Boolean> SHOOT = SynchedEntityData.defineId(TinyCopperMopedEntity.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<String> ANIMATION = SynchedEntityData.defineId(TinyCopperMopedEntity.class, EntityDataSerializers.STRING);
 	public static final EntityDataAccessor<String> TEXTURE = SynchedEntityData.defineId(TinyCopperMopedEntity.class, EntityDataSerializers.STRING);
+	
+	public static final EntityDataAccessor<Float> DATA_steeringAngle = SynchedEntityData.defineId(TinyCopperMopedEntity.class, EntityDataSerializers.FLOAT);
+	
 	private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 	private boolean swinging;
 	private boolean lastloop;
@@ -92,6 +96,11 @@ public class TinyCopperMopedEntity extends PathfinderMob implements GeoEntity {
 		builder.define(SHOOT, false);
 		builder.define(ANIMATION, "undefined");
 		builder.define(TEXTURE, "moped0");
+		builder.define(DATA_steeringAngle, 0f);
+	}
+
+	public float getSteeringAngle() {
+		return this.entityData.get(DATA_steeringAngle);
 	}
 
 	public void setTexture(String texture) {
@@ -232,6 +241,8 @@ public class TinyCopperMopedEntity extends PathfinderMob implements GeoEntity {
 			return InteractionResult.sidedSuccess(this.level().isClientSide());
 		}
 		super.mobInteract(sourceentity, hand);
+		sourceentity.setYRot(this.getYRot());
+		sourceentity.yRotO = this.getYRot();
 		sourceentity.startRiding(this);
 		return retval;
 	}
@@ -247,18 +258,57 @@ public class TinyCopperMopedEntity extends PathfinderMob implements GeoEntity {
 	public void travel(Vec3 dir) {
 		Entity entity = this.getPassengers().isEmpty() ? null : (Entity) this.getPassengers().get(0);
 		if (this.isVehicle()) {
-			this.setYRot(entity.getYRot());
+			/*this.setYRot(entity.getYRot());
 			this.yRotO = this.getYRot();
 			this.setXRot(entity.getXRot() * 0.5F);
 			this.setRot(this.getYRot(), this.getXRot());
 			this.yBodyRot = entity.getYRot();
-			this.yHeadRot = entity.getYRot();
+			this.yHeadRot = entity.getYRot();*/
 			//this.setMaxUpStep(1.0F);
 			if (entity instanceof LivingEntity passenger) {
 				this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
 				float forward = passenger.zza;
-				float strafe = 0;
-				super.travel(new Vec3(strafe, 0, forward));
+				float strafe = passenger.xxa;
+				
+				float rotationSpeed = 3.0F;
+				float reverse = 1f;
+
+				// Reverse turning
+				if (forward < 0f) reverse *= -1f;
+
+				// Set the rotation of the vehicle
+				this.setYRot(this.getYRot() - strafe * rotationSpeed * reverse);
+				this.yRotO = this.getYRot();
+				this.yBodyRot = this.getYRot();
+				this.yHeadRot = this.getYRot();
+
+				// Rotate the passenger by the same amount
+				passenger.setYRot(passenger.getYRot() - strafe * rotationSpeed * reverse);
+				passenger.yRotO = passenger.getYRot();
+
+				super.travel(new Vec3(0, 0, forward));
+
+				// Calculate the angle to turn the rudder 
+				float targetAngle = strafe * rotationSpeed * 20f;
+				this.entityData.set(DATA_steeringAngle, Mth.lerp(0.5f, this.getSteeringAngle(), Mth.clamp(targetAngle, -20f, 20f)));
+				
+				float carYaw = this.getYRot();
+				float playerYaw = passenger.getYRot();
+				
+				float angleDiff = Mth.wrapDegrees(carYaw - playerYaw); // [-180, 180]
+						
+				float maxYawOffset = 75.0F;
+				
+				// Clamp the player's yaw to be within 75 degrees of the car's facing direction
+				if (angleDiff > maxYawOffset) {
+					float clampedYaw = carYaw - maxYawOffset;
+					passenger.setYRot(clampedYaw);
+					passenger.yRotO = clampedYaw;
+				} else if (angleDiff < -maxYawOffset) {
+					float clampedYaw = carYaw + maxYawOffset;
+					passenger.setYRot(clampedYaw);
+					passenger.yRotO = clampedYaw;
+				}
 			}
 			double d1 = this.getX() - this.xo;
 			double d0 = this.getZ() - this.zo;
@@ -271,6 +321,7 @@ public class TinyCopperMopedEntity extends PathfinderMob implements GeoEntity {
 			return;
 		}
 		//this.setMaxUpStep(0.5F);
+		this.entityData.set(DATA_steeringAngle, Mth.lerp(0.5f, this.getSteeringAngle(), Mth.clamp(0f, -20f, 20f)));
 		super.travel(dir);
 	}
 

@@ -4,11 +4,11 @@ license="Academic Free License v3.0"
 
 [[mods]]
 modId="moped"
-version="1.0.0"
+version="1.1.0"
 displayName="Moped"
 displayURL="https://mcreator.net"
 credits="Created using mod maker MCreator - https://mcreator.net/about"
-authors="abovearth, MCreator"
+authors="222Eric, abovearth, MCreator"
 
 # Start of user code block mod configuration
 # End of user code block mod configuration

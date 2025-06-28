@@ -15,6 +15,8 @@ import net.mcreator.moped.entity.CopperMopedEntity;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.PoseStack;
+import software.bernie.geckolib.cache.object.GeoBone;
+import java.util.Optional;
 
 public class CopperMopedRenderer extends GeoEntityRenderer<CopperMopedEntity> {
 	public CopperMopedRenderer(EntityRendererProvider.Context renderManager) {
@@ -34,5 +36,14 @@ public class CopperMopedRenderer extends GeoEntityRenderer<CopperMopedEntity> {
 		this.scaleHeight = scale;
 		this.scaleWidth = scale;
 		super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, color);
+		animateSteering(entity.getSteeringAngle());
+	}
+
+	private void animateSteering(float steeringAngle) {
+		Optional<GeoBone> orudder = this.getGeoModel().getBone("Rudder");
+		float radians = (float) Math.toRadians(steeringAngle);
+		orudder.ifPresent(steeringWheel -> {
+			steeringWheel.setRotY(radians);
+		});
 	}
 }

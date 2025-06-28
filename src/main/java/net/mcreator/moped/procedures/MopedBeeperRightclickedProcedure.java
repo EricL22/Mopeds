@@ -33,9 +33,9 @@ public class MopedBeeperRightclickedProcedure {
 					if (world instanceof Level _level) {
 						if (!_level.isClientSide()) {
 							_level.playSound(null, BlockPos.containing(entityiterator.getX(), entityiterator.getY(), entityiterator.getZ()), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.horn.honks")), SoundSource.NEUTRAL,
-									(float) 0.5, (float) (0.8 + 0.4 * Math.random()));
+									(float) 0.6, (float) (0.8 + 0.4 * Math.random()));
 						} else {
-							_level.playLocalSound((entityiterator.getX()), (entityiterator.getY()), (entityiterator.getZ()), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.horn.honks")), SoundSource.NEUTRAL, (float) 0.5,
+							_level.playLocalSound((entityiterator.getX()), (entityiterator.getY()), (entityiterator.getZ()), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("moped:moped.horn.honks")), SoundSource.NEUTRAL, (float) 0.6,
 									(float) (0.8 + 0.4 * Math.random()), false);
 						}
 					}
